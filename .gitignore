@@ -1,0 +1,9 @@
+# Built apps and DMGs (DMGs go on GitHub's Releases page)
+beta/
+releases/
+*.dmg
+# Made by build.sh while building
+dev/build/
+dev/build-number.txt
+# Mac clutter
+.DS_Store
