@@ -1,0 +1,421 @@
+<!doctype html>
+<!-- Glass Crate Read Me. release.sh copies this into the DMG and fills in {{VERSION}}. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glass Crate {{VERSION}} Read Me</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+html { color-scheme: light; }
+body { margin: 0; }
+img { max-width: 100%; }
+/* Layout: one readable column like a record's liner notes, with wide "crate" bands for the tool list and roadmap. */
+:root {
+  --bg: #f7f4f4;          /* warm paper */
+  --surface: #ffffff;
+  --sunk: #ede7e7;
+  --ink: #1d1617;
+  --muted: #5c5052;
+  --rule: #ddd3d4;
+  --accent: #ab0116;      /* the red of the Glass Crate icon */
+  --accent-soft: #f7dfe2;
+  --good: #1f7a4d;
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141112; --surface: #1d1718; --sunk: #0e0b0c; --ink: #f2ecec; --muted: #b5a7a9;
+    --rule: #3a2f31; --accent: #ef3347; --accent-soft: #3d1519; --good: #5fcf96;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141112; --surface: #1d1718; --sunk: #0e0b0c; --ink: #f2ecec; --muted: #b5a7a9;
+  --rule: #3a2f31; --accent: #ef3347; --accent-soft: #3d1519; --good: #5fcf96;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;              /* larger than usual on purpose: easy to read without leaning in */
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 860px; margin: 0 auto; padding-block: 56px 72px; display: flex; flex-direction: column; gap: 64px; }
+.col { max-width: 66ch; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.01em; }
+h3 { font-size: 1.15rem; font-weight: 600; }
+p { margin: 0; }
+section { display: flex; flex-direction: column; gap: 18px; }
+.label {
+  font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted);
+}
+code, .path { font-family: var(--font-mono); font-size: 0.88em; background: var(--sunk); padding: 0.1em 0.4em; border-radius: 4px; overflow-wrap: anywhere; }
+
+/* Hero */
+.hero { display: flex; flex-direction: column; gap: 18px; padding-bottom: 8px; border-bottom: 2px solid var(--ink); }
+.hero h1 { font-size: clamp(3rem, 9vw, 5.5rem); font-weight: 800; letter-spacing: -0.03em; }
+.hero h1 span { color: var(--accent); }
+.lede { font-size: 1.3rem; line-height: 1.45; max-width: 34ch; }
+.specs { display: flex; flex-wrap: wrap; gap: 8px 20px; padding-bottom: 18px; }
+.specs div { display: flex; flex-direction: column; }
+.specs dt { margin: 0; }
+.specs dd { margin: 0; font-weight: 700; }
+
+/* Liner notes */
+.notes p + p { margin-top: 16px; }
+.notes .pull { font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; line-height: 1.35; border-left: 4px solid var(--accent); padding-left: 18px; margin-top: 20px; }
+
+/* Feature list */
+.features { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 28px 32px; }
+.features > div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.features p { color: var(--muted); }
+
+/* The crate: exactly what gets installed */
+.crate { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; }
+th, td { text-align: left; vertical-align: top; padding: 12px 14px 12px 0; border-bottom: 1px solid var(--rule); }
+th { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+td:first-child { font-weight: 700; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+.total { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+.total strong { font-family: var(--font-display); font-size: 1.4rem; }
+.nots { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px 24px; list-style: none; padding: 0; margin: 0; }
+.nots li { display: flex; gap: 10px; align-items: baseline; }
+.nots li::before { content: "✕"; color: var(--good); font-weight: 700; flex: none; }
+
+/* Steps (real sequences) */
+ol.steps { list-style: none; counter-reset: s; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 14px; }
+ol.steps li { counter-increment: s; display: grid; grid-template-columns: 2.2rem 1fr; gap: 12px; align-items: baseline; }
+ol.steps li::before { content: counter(s); font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; color: var(--accent); }
+ol.steps li > div { min-width: 0; }
+
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px 40px; }
+.two > div { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+ul.plain { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; }
+
+.kept { background: var(--accent-soft); border-radius: 10px; padding: 16px 20px; }
+
+/* FAQ */
+details { border-bottom: 1px solid var(--rule); padding: 14px 0; }
+details:first-of-type { border-top: 1px solid var(--rule); }
+summary { cursor: pointer; font-weight: 700; list-style-position: outside; }
+details p { margin-top: 10px; color: var(--muted); }
+
+/* Roadmap */
+.roadmap { background: var(--sunk); border-radius: 12px; padding: 24px; display: flex; flex-direction: column; gap: 22px; }
+.roadmap .group { display: flex; flex-direction: column; gap: 10px; }
+.roadmap ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 8px; }
+.roadmap li strong { font-weight: 700; }
+
+footer { border-top: 2px solid var(--ink); padding-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 0.95rem; }
+
+@media (max-width: 520px) {
+  body { font-size: 17px; }
+  .wrap { padding-block: 32px 48px; gap: 48px; }
+  .crate, .roadmap { padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <span class="label">MadebyJP · Mac app</span>
+    <h1>Glass <span>Crate</span></h1>
+    <p class="lede">A simple, transparent way to save video and audio on your Mac. It tells you exactly what it uses, where it keeps it, and removes all of it when you're done.</p>
+    <dl class="specs">
+      <div><dt class="label">Version</dt><dd>{{VERSION}}</dd></div>
+      <div><dt class="label">Requires</dt><dd>macOS 13 Ventura or newer</dd></div>
+      <div><dt class="label">Runs on</dt><dd>Apple Silicon and Intel</dd></div>
+      <div><dt class="label">Setup size</dt><dd>About 200 MB, one time</dd></div>
+      <div><dt class="label">Price</dt><dd>Free and open source</dd></div>
+    </dl>
+  </header>
+
+  <section class="notes col" aria-labelledby="notes">
+    <span class="label">Liner notes</span>
+    <h2 id="notes">How Glass Crate came to be</h2>
+    <p>I wanted a way to download video and audio to use in mashups and remixes. I looked at the video and audio downloaders out there, and most were loaded with spyware. Some had malware built right in.</p>
+    <p>Rather than take that risk, I learned that everything could be done from the Mac's Terminal with Homebrew and a couple of free, open-source tools. Glass Crate started as a small AppleScript, a simple window for running those Homebrew commands. After some development, it grew into a full Mac application that lives and breathes on the Mac, and Homebrew wasn't needed anymore. Now the app runs safely on its own, with nothing extra installed beyond the few tools it actually uses.</p>
+    <p>From the start, the goal was transparency. Glass Crate tells you exactly what it uses, how it uses it, and where it's kept. Its uninstaller removes not just the app, but every tool it added, leaving only the videos and music you downloaded.</p>
+    <p class="pull">I wanted a tool I could trust. That's how this app came to be.</p>
+    <p>That's why it's called <strong>Glass Crate</strong>: like a crate made of glass, there's nothing hidden inside. It's also open source, so anyone can read every line of the code on <a href="https://github.com/nine00p/glasscrate" target="_blank" rel="noopener">GitHub</a>.</p>
+    <p>Since starting this project, there have been plenty of ideas, and they're collected in the roadmap below. Version 1.3 brings a new red look. Version 1.2 added a browser right inside the app, so you can find a video or track on YouTube or SoundCloud and add it to your crate with one click, plus themes and an Interface Size setting for any screen. It's still a simple tool that does exactly what it's supposed to, and does it well.</p>
+  </section>
+
+  <section aria-labelledby="does">
+    <span class="label">Features</span>
+    <h2 id="does">What it does</h2>
+    <div class="features">
+      <div>
+        <h3>Browse right inside the app</h3>
+        <p>A phone-sized browser on the left side of the window. Pick YouTube or SoundCloud, find a video or track, and click <strong>Add to Crate</strong>. No copying and pasting. The website sits inside its own outlined "screen," so it's always clear what's the site and what's Glass Crate.</p>
+      </div>
+      <div>
+        <h3>A Download Queue</h3>
+        <p>Paste a link (or use the browser), click Add to Crate, and keep going. Downloads line up in a queue that slides out beside the window and run one after another, with the one in progress at the top and what's up next listed below it.</p>
+      </div>
+      <div>
+        <h3>Video and audio, all at once</h3>
+        <p>Check any combination of MP4 video, MP3, WAV, and AIFF. Each is saved as its own file, so you can grab the video, an MP3, and a WAV in one go.</p>
+      </div>
+      <div>
+        <h3>The quality you want</h3>
+        <p>Video downloads at the best quality available, or choose 1080p, 720p, 480p, or 360p in Settings. If a video doesn't have your choice, you get the closest quality below it. MP3s use the highest MP3 quality. SoundCloud tracks are saved as audio only.</p>
+      </div>
+      <div>
+        <h3>Uncompressed for production</h3>
+        <p>WAV and AIFF are ready for your music software. AIFF is the Apple-friendly version of WAV.</p>
+      </div>
+      <div>
+        <h3>Album art and tags</h3>
+        <p>MP3s get the video's thumbnail as square album art. Every file is tagged with the title, the artist (the official artist when one is listed, otherwise the channel), and the video title as the album. Audio files are also marked "Encoded by: Glass Crate," the way most apps that make audio files label their work.</p>
+      </div>
+      <div>
+        <h3>Always know what's happening</h3>
+        <p>Each download shows its thumbnail, title, and a progress bar, with size and speed, like "Video (file 1 of 2): downloading picture 42% · 41.2 MB of 98.6 MB · 2.3 MB/s." If something fails, you see what went wrong and a Try Again button.</p>
+      </div>
+      <div>
+        <h3>Pick up where you left off</h3>
+        <p>Quit with downloads running and Glass Crate asks first, then saves the queue. Next time, Resume continues each one from where it stopped, and finished formats aren't downloaded again.</p>
+      </div>
+      <div>
+        <h3>Keep it on top</h3>
+        <p>The pin keeps Glass Crate and its queue above your other windows, so you can keep browsing and still see your downloads.</p>
+      </div>
+      <div>
+        <h3>Files go where you want</h3>
+        <p>Videos and audio each have their own folder, and WAV/AIFF can have a third. Or turn on "Ask where to save each time." When a download finishes, a button opens its folder.</p>
+      </div>
+      <div>
+        <h3>Updates, the Mac way</h3>
+        <p>Sites change often, so the tools get updates. Settings → Updates lists each one, and you choose what to download and install. A small "Update available" at the bottom of the window lets you know. No pop-ups, and never in the middle of a download.</p>
+      </div>
+      <div>
+        <h3>Your look, your size</h3>
+        <p>Four Glass Crate themes (Light, Crimson, Dark, and Blackout, in the red of the app icon) plus the Mac's own Light, Dark, and Match System. Interface Size, from 70% to 130%, makes everything fit any screen, from a 13-inch laptop to a big monitor.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="crate">
+    <span class="label">Transparency</span>
+    <h2 id="crate">Exactly what gets installed</h2>
+    <p class="col">Glass Crate itself is small. To do its work, it relies on free, open-source tools. The first time you open it, a setup screen lists each one with links to its official site, and nothing is downloaded until you click <strong>Begin Setup</strong>.</p>
+
+    <div class="crate">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">File</th><th scope="col">What it does</th><th scope="col">Comes from</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>yt-dlp</td>
+              <td>Downloads the video and audio from the link you paste.</td>
+              <td><a href="https://github.com/yt-dlp/yt-dlp" target="_blank" rel="noopener">yt-dlp on GitHub</a></td>
+            </tr>
+            <tr>
+              <td>FFmpeg</td>
+              <td>Joins video and audio, converts to MP3, WAV, or AIFF, and adds album art.</td>
+              <td><a href="https://ffmpeg.org" target="_blank" rel="noopener">ffmpeg.org</a>, Mac build by <a href="https://ffmpeg.martin-riedl.de" target="_blank" rel="noopener">Martin Riedl</a></td>
+            </tr>
+            <tr>
+              <td>FFprobe</td>
+              <td>FFmpeg's companion. Checks each file before it's converted.</td>
+              <td>Same as FFmpeg</td>
+            </tr>
+            <tr>
+              <td>Deno</td>
+              <td>Helps yt-dlp read YouTube's pages so downloads keep working.</td>
+              <td><a href="https://deno.com" target="_blank" rel="noopener">deno.com</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="total">
+        <strong>4 files · about 200 MB</strong>
+        <span>Kept in one folder: <span class="path">~/Library/Application Support/Glass Crate</span></span>
+      </div>
+
+      <ul class="nots" aria-label="What Glass Crate does not do">
+        <li>No Homebrew</li>
+        <li>No password needed</li>
+        <li>No Terminal</li>
+        <li>No account or sign-in</li>
+        <li>No ads, analytics, or tracking from Glass Crate (sites you browse show their own ads)</li>
+        <li>Nothing running in the background</li>
+        <li>Nothing installed outside its own folder</li>
+      </ul>
+    </div>
+
+    <p class="col">Glass Crate only goes online to download the links you paste, to look up a video's or track's title and picture when you add it to the queue (from YouTube or SoundCloud), to fetch these four tools from the sites listed above, and to check for updates to them.</p>
+  </section>
+
+  <section aria-labelledby="install">
+    <span class="label">Getting started</span>
+    <h2 id="install">Installing</h2>
+    <ol class="steps col">
+      <li><div>Open <strong>Glass Crate {{VERSION}}.dmg</strong> and drag <strong>Glass Crate</strong> onto the <strong>Applications</strong> folder next to it. Then eject the disk.</div></li>
+      <li><div>Open Glass Crate from Applications. The first time, macOS will stop it, because the app isn't registered with Apple. Close that message, go to <strong>System Settings → Privacy &amp; Security</strong>, scroll down, and click <strong>Open Anyway</strong>. You only do this once.</div></li>
+      <li><div>On the setup screen, read through the tools and click <strong>Begin Setup</strong>. A progress bar shows each of the 4 files downloading, with its size and speed. This usually takes a few minutes.</div></li>
+    </ol>
+    <p class="col">If you change your mind, click <strong>Quit</strong> on the setup screen. If Glass Crate closes before setup finishes, it deletes anything it downloaded, so nothing is left behind.</p>
+  </section>
+
+  <section aria-labelledby="use">
+    <span class="label">Everyday use</span>
+    <h2 id="use">Downloading</h2>
+    <ol class="steps col">
+      <li><div>Check what you want on the right: <strong>Video: MP4</strong>, and any of <strong>Audio: MP3, WAV, AIFF</strong>.</div></li>
+      <li><div>In the browser on the left, pick <strong>YouTube</strong> or <strong>SoundCloud</strong> and find a video or track. Or copy a link from anywhere and paste it into the box on the right.</div></li>
+      <li><div>Click <strong>Add to Crate</strong> (or press Return in the link box). The Download Queue slides out and the download starts.</div></li>
+      <li><div>When a download says <strong>Done!</strong>, click <strong>Open Video Folder</strong> or <strong>Open Audio Folder</strong> to find your files.</div></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="where">
+    <span class="label">Folders and settings</span>
+    <h2 id="where">Where your files go</h2>
+    <div class="two">
+      <div>
+        <h3>By default</h3>
+        <ul class="plain">
+          <li>Videos go to <span class="path">Movies/Glass Crate</span></li>
+          <li>Audio goes to <span class="path">Music/Glass Crate</span>, including WAV and AIFF</li>
+          <li>Each folder is created the first time something is saved to it</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Changing it</h3>
+        <p>Click the gear at the top right, or press <code>⌘,</code>, to open Settings. Under <strong>Downloads</strong> you can:</p>
+        <ul class="plain">
+          <li>Pick a different Video or Audio folder</li>
+          <li>Give WAV and AIFF their own folder, like the one your music software uses</li>
+          <li>Choose the video quality (Best available unless you change it)</li>
+          <li>Turn on "Ask where to save each time"</li>
+        </ul>
+        <p>Themes and Interface Size are under <strong>General</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="remove">
+    <span class="label">Leaving no trace</span>
+    <h2 id="remove">Uninstalling</h2>
+    <p class="col">Open <strong>Settings → Uninstall</strong>, or choose <strong>Uninstall Glass Crate…</strong> from the Glass Crate menu. The Uninstall tab lists exactly what goes and what stays. After you confirm, it removes:</p>
+    <div class="two">
+      <div>
+        <h3>Removed</h3>
+        <ul class="plain">
+          <li>The app (moved to the Trash)</li>
+          <li>All 4 tools and their folder</li>
+          <li>Your settings: folders, appearance, and checkbox choices</li>
+          <li>The saved Download Queue, and any tool updates that were downloaded but not installed</li>
+          <li>Partial files from unfinished downloads (only the ones Glass Crate itself was writing)</li>
+          <li>The browser's history, cookies, and sign-ins</li>
+        </ul>
+      </div>
+      <div class="kept">
+        <h3>Kept</h3>
+        <p>Every video and audio file you downloaded stays exactly where it is.</p>
+      </div>
+    </div>
+    <p class="col">Use Uninstall rather than dragging the app to the Trash. Dragging it removes only the app and leaves the 200 MB of tools behind.</p>
+  </section>
+
+  <section aria-labelledby="faq">
+    <span class="label">Good to know</span>
+    <h2 id="faq">Questions and fixes</h2>
+    <div class="col">
+      <details>
+        <summary>A download failed. What do I do?</summary>
+        <p>Click <strong>Try Again</strong>. Sites sometimes refuse a single request, and a second try usually works. If it keeps failing, open <strong>Settings → Updates</strong> and click <strong>Check Now</strong>. An update fixes most problems, since sites change often.</p>
+      </details>
+      <details>
+        <summary>Does it work with sites other than YouTube?</summary>
+        <p>YouTube is the only officially supported site. Links from some other sites may also work, since yt-dlp understands many of them, but they aren't tested or supported. If a link has no video, like a music track, uncheck MP4 and keep an audio format checked.</p>
+      </details>
+      <details>
+        <summary>It says YouTube asked Glass Crate to slow down. What does that mean?</summary>
+        <p>YouTube limits how many requests it accepts from one internet connection. Glass Crate already goes easy, one download at a time with a short pause between them, but if YouTube still says slow down, the queue waits a few minutes with a countdown and then carries on by itself. Click <strong>Try Now</strong> to skip the wait. If it keeps happening, give it a few hours. A VPN can make it happen more often.</p>
+      </details>
+      <details>
+        <summary>Will WAV or AIFF sound better than the original?</summary>
+        <p>No. YouTube's audio is already compressed, so an uncompressed file can't add quality that isn't there. What it does guarantee is no further loss, and a format your music software handles easily.</p>
+      </details>
+      <details>
+        <summary>Why does macOS warn me the first time I open it?</summary>
+        <p>Apps that aren't registered with Apple's paid developer program show this warning once. The <strong>Open Anyway</strong> button in Privacy &amp; Security lets it run. Removing this step is on the roadmap.</p>
+      </details>
+      <details>
+        <summary>Where can I read more inside the app?</summary>
+        <p>Choose <strong>About Glass Crate</strong> from the Glass Crate menu at the top left. To see what changed in each version, click the version number at the bottom of the window.</p>
+      </details>
+    </div>
+  </section>
+
+  <section aria-labelledby="roadmap">
+    <span class="label">What's next</span>
+    <h2 id="roadmap">Roadmap</h2>
+    <p class="col">Ideas collected along the way, saved for after this release. Plans can change.</p>
+    <div class="roadmap">
+      <div class="group">
+        <h3>Next</h3>
+        <ul>
+          <li><strong>The Crate:</strong> one place to see, play, and clean out everything you've downloaded, and delete the tracks you don't want, one at a time.</li>
+          <li><strong>Skip one format</strong> mid-download and move on to the rest.</li>
+          <li><strong>Retry automatically</strong> when a site refuses a single request.</li>
+          <li><strong>Album art for AIFF files.</strong></li>
+          <li><strong>Make your own theme,</strong> with your own colors.</li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Updates and other sites</h3>
+        <ul>
+          <li><strong>Updates for Glass Crate itself,</strong> not just its tools, from madebyjp.net.</li>
+          <li><strong>Official support beyond YouTube,</strong> starting with SoundCloud.</li>
+          <li><strong>Optional sign-in</strong> for sites that require it, off by default and clearly explained.</li>
+        </ul>
+      </div>
+      <div class="group">
+        <h3>Bigger ideas</h3>
+        <ul>
+          <li><strong>File conversion:</strong> drop in a WAV and get an MP3, pull the audio out of a video, and convert whole batches, with album art from an image you pick.</li>
+          <li><strong>Channel Vault,</strong> a separate backup tool for creators: enter your channel, see your videos as thumbnails, and back up the ones you choose, with their titles, descriptions, and upload dates.</li>
+          <li><strong>Apple notarization,</strong> which removes the one-time "Open Anyway" step.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="col" aria-labelledby="use-well">
+    <span class="label">Use it well</span>
+    <h2 id="use-well">A note on responsible use</h2>
+    <p>Only download content you own or have permission to save. Glass Crate is built for working with your own material and material you have the rights to use.</p>
+  </section>
+
+  <footer>
+    <span>Glass Crate {{VERSION}} · Made by <a href="http://www.madebyjp.net" target="_blank" rel="noopener">MadebyJP</a></span>
+    <span>Built on yt-dlp, FFmpeg, and Deno · <a href="https://github.com/nine00p/glasscrate" target="_blank" rel="noopener">Source code (GPL-3.0)</a></span>
+  </footer>
+
+</div>
+</body>
+</html>
